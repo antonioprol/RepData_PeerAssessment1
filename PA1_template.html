@@ -150,7 +150,13 @@ d2_total &lt;- d2 %&gt;% summarize(totalStepsPerDay=sum(steps, na.rm=TRUE))</cod
 <h3>Mean and median number of steps taken each day</h3>
 <pre class="r"><code>d2_mean &lt;- d2 %&gt;% summarize(meanStepsPerDay=mean(steps, na.rm=TRUE))
 d2_median &lt;- d2 %&gt;% summarize(medianStepsPerDay=median(steps, na.rm=TRUE))
-# 'head' the first one
+summary(d2_mean$meanStepsPerDay)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    0.00   26.14   37.04   34.28   45.61   73.59       4</code></pre>
+<pre class="r"><code>summary(d2_median$medianStepsPerDay)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##       0       0       0       0       0       0       4</code></pre>
+<pre class="r"><code># 'head' the first one
 head(d2_mean)</code></pre>
 <pre><code>## # A tibble: 6 x 2
 ##              datetime meanStepsPerDay
@@ -161,7 +167,7 @@ head(d2_mean)</code></pre>
 ## 4 2012-10-04 00:00:00        42.06944
 ## 5 2012-10-05 00:00:00        46.15972
 ## 6 2012-10-06 00:00:00        53.54167</code></pre>
-<pre class="r"><code># there's one 'NaN'</code></pre>
+<pre class="r"><code># and check there's one 'NaN'</code></pre>
 </div>
 <div id="time-series-plot-of-the-5-minute-interval-x-axis-and-the-average-number-of-steps-taken-averaged-across-all-days-y-axis" class="section level3">
 <h3>Time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)</h3>
@@ -211,7 +217,13 @@ with(d2_imptotal, hist(totalStepsPerDay, main=&quot;After imputation&quot;))</co
 <h3>and report the mean and median total number of steps taken per day</h3>
 <pre class="r"><code>d2_impmean &lt;- d2_imp %&gt;% summarize(meanStepsPerDay=mean(steps, na.rm=TRUE))
 d2_impmedian &lt;- d2_imp %&gt;% summarize(medianStepsPerDay=median(steps, na.rm=TRUE))
-# 'head' the first one
+summary(d2_impmean$meanStepsPerDay)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.219  31.747  37.306  36.836  44.681  73.590</code></pre>
+<pre class="r"><code>summary(d2_impmedian$medianStepsPerDay)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   0.000   4.423   0.000  34.113</code></pre>
+<pre class="r"><code># 'head' the first one
 head(d2_impmean)</code></pre>
 <pre><code>## # A tibble: 6 x 2
 ##              datetime meanStepsPerDay
@@ -222,7 +234,7 @@ head(d2_impmean)</code></pre>
 ## 4 2012-10-04 00:00:00        42.06944
 ## 5 2012-10-05 00:00:00        46.15972
 ## 6 2012-10-06 00:00:00        53.54167</code></pre>
-<pre class="r"><code># now there's no 'NaN'</code></pre>
+<pre class="r"><code># and check now there's no 'NaN'</code></pre>
 </div>
 <div id="do-these-values-differ-from-the-estimates-from-the-first-part-of-the-assignment" class="section level3">
 <h3>Do these values differ from the estimates from the first part of the assignment?</h3>
