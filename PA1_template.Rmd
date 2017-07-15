@@ -32,18 +32,12 @@ d2_total <- d2 %>% summarize(totalStepsPerDay=sum(steps, na.rm=TRUE))
 
 ### Histogram of the total number of steps taken each day
 ``` {r}
-with(d2_total, hist(totalStepsPerDay, main="Histogram of total steps taken each day"))
+with(d2_total, hist(totalStepsPerDay, breaks=30, main="Histogram of total steps taken each day"))
 ```
 
-### Mean and median number of steps taken each day
+### Calculate and report the mean and median of the total number of steps taken per day
 ``` {r}
-d2_mean <- d2 %>% summarize(meanStepsPerDay=mean(steps, na.rm=TRUE))
-d2_median <- d2 %>% summarize(medianStepsPerDay=median(steps, na.rm=TRUE))
-summary(d2_mean$meanStepsPerDay)
-summary(d2_median$medianStepsPerDay)
-# 'head' the first one
-head(d2_mean)
-# and check there's one 'NaN'
+summary(d2_total$totalStepsPerDay)
 ```
 
 ### Time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
@@ -84,27 +78,18 @@ d1_imp <- d1 %>% mutate(steps = ifelse(is.na(steps), stepsImp[is.na(steps)], ste
 d2_imp <- d1_imp %>% mutate(datetime=cut(datetime, "day")) %>% group_by(datetime)
 d2_imptotal <- d2_imp %>% summarize(totalStepsPerDay=sum(steps, na.rm=TRUE))
 par(mfrow=c(1,2))
-with(d2_total, hist(totalStepsPerDay, main="Before imputation"))
-with(d2_imptotal, hist(totalStepsPerDay, main="After imputation"))
+with(d2_total, hist(totalStepsPerDay, breaks=30, main="Before imputation"))
+with(d2_imptotal, hist(totalStepsPerDay, breaks=30, main="After imputation"))
 ```
 
 ### and report the mean and median total number of steps taken per day
 ``` {r}
-d2_impmean <- d2_imp %>% summarize(meanStepsPerDay=mean(steps, na.rm=TRUE))
-d2_impmedian <- d2_imp %>% summarize(medianStepsPerDay=median(steps, na.rm=TRUE))
-summary(d2_impmean$meanStepsPerDay)
-summary(d2_impmedian$medianStepsPerDay)
-# 'head' the first one
-head(d2_impmean)
-# and check now there's no 'NaN'
+summary(d2_total$totalStepsPerDay)
 ```
 
 ### Do these values differ from the estimates from the first part of the assignment?
-``` {r}
-summary(d2_mean$meanStepsPerDay)
-summary(d2_impmean$meanStepsPerDay)
-summary(d2_median$medianStepsPerDay)
-summary(d2_impmedian$medianStepsPerDay)
+``` {r, echo=FALSE}
+message("Both the mean and median increased with imputation")
 ```
 
 ### What is the impact of imputing missing data on the estimates of the total daily number of steps?

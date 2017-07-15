@@ -34,52 +34,20 @@ d2_total <- d2 %>% summarize(totalStepsPerDay=sum(steps, na.rm=TRUE))
 ### Histogram of the total number of steps taken each day
 
 ```r
-with(d2_total, hist(totalStepsPerDay, main="Histogram of total steps taken each day"))
+with(d2_total, hist(totalStepsPerDay, breaks=30, main="Histogram of total steps taken each day"))
 ```
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png)
 
-### Mean and median number of steps taken each day
+### Calculate and report the mean and median of the total number of steps taken per day
 
 ```r
-d2_mean <- d2 %>% summarize(meanStepsPerDay=mean(steps, na.rm=TRUE))
-d2_median <- d2 %>% summarize(medianStepsPerDay=median(steps, na.rm=TRUE))
-summary(d2_mean$meanStepsPerDay)
+summary(d2_total$totalStepsPerDay)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    0.00   26.14   37.04   34.28   45.61   73.59       4
-```
-
-```r
-summary(d2_median$medianStepsPerDay)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##       0       0       0       0       0       0       4
-```
-
-```r
-# 'head' the first one
-head(d2_mean)
-```
-
-```
-## # A tibble: 6 x 2
-##              datetime meanStepsPerDay
-##                <fctr>           <dbl>
-## 1 2012-10-01 00:00:00             NaN
-## 2 2012-10-02 00:00:00         0.43750
-## 3 2012-10-03 00:00:00        39.41667
-## 4 2012-10-04 00:00:00        42.06944
-## 5 2012-10-05 00:00:00        46.15972
-## 6 2012-10-06 00:00:00        53.54167
-```
-
-```r
-# and check there's one 'NaN'
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       0    5775   10350    9203   12868   21194
 ```
 
 ### Time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
@@ -146,8 +114,8 @@ d1_imp <- d1 %>% mutate(steps = ifelse(is.na(steps), stepsImp[is.na(steps)], ste
 d2_imp <- d1_imp %>% mutate(datetime=cut(datetime, "day")) %>% group_by(datetime)
 d2_imptotal <- d2_imp %>% summarize(totalStepsPerDay=sum(steps, na.rm=TRUE))
 par(mfrow=c(1,2))
-with(d2_total, hist(totalStepsPerDay, main="Before imputation"))
-with(d2_imptotal, hist(totalStepsPerDay, main="After imputation"))
+with(d2_total, hist(totalStepsPerDay, breaks=30, main="Before imputation"))
+with(d2_imptotal, hist(totalStepsPerDay, breaks=30, main="After imputation"))
 ```
 
 ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png)
@@ -155,82 +123,18 @@ with(d2_imptotal, hist(totalStepsPerDay, main="After imputation"))
 ### and report the mean and median total number of steps taken per day
 
 ```r
-d2_impmean <- d2_imp %>% summarize(meanStepsPerDay=mean(steps, na.rm=TRUE))
-d2_impmedian <- d2_imp %>% summarize(medianStepsPerDay=median(steps, na.rm=TRUE))
-summary(d2_impmean$meanStepsPerDay)
+summary(d2_total$totalStepsPerDay)
 ```
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.219  31.747  37.306  36.836  44.681  73.590
-```
-
-```r
-summary(d2_impmedian$medianStepsPerDay)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.000   0.000   0.000   4.423   0.000  34.113
-```
-
-```r
-# 'head' the first one
-head(d2_impmean)
-```
-
-```
-## # A tibble: 6 x 2
-##              datetime meanStepsPerDay
-##                <fctr>           <dbl>
-## 1 2012-10-01 00:00:00        37.38260
-## 2 2012-10-02 00:00:00         0.43750
-## 3 2012-10-03 00:00:00        39.41667
-## 4 2012-10-04 00:00:00        42.06944
-## 5 2012-10-05 00:00:00        46.15972
-## 6 2012-10-06 00:00:00        53.54167
-```
-
-```r
-# and check now there's no 'NaN'
+##       0    5775   10350    9203   12868   21194
 ```
 
 ### Do these values differ from the estimates from the first part of the assignment?
 
-```r
-summary(d2_mean$meanStepsPerDay)
 ```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    0.00   26.14   37.04   34.28   45.61   73.59       4
-```
-
-```r
-summary(d2_impmean$meanStepsPerDay)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.219  31.747  37.306  36.836  44.681  73.590
-```
-
-```r
-summary(d2_median$medianStepsPerDay)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##       0       0       0       0       0       0       4
-```
-
-```r
-summary(d2_impmedian$medianStepsPerDay)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.000   0.000   0.000   4.423   0.000  34.113
+## Both the mean and median increased with imputation
 ```
 
 ### What is the impact of imputing missing data on the estimates of the total daily number of steps?
